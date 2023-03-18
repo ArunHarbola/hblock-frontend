@@ -2,12 +2,12 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Container, Typography, Link, Box, Divider } from "@mui/material";
 import styled from "@emotion/styled";
-import LoginForm from "../components/LoginForm";
+
 import SocialAuth from "../components/SocialAuth";
+import SignupForm from "../components/SignupForm";
 import Logo from "../components/Logo";
 import { motion } from "framer-motion";
 
-//////////////////////////////////
 const RootStyle = styled("div")({
   background: "rgb(249, 250, 251)",
   height: "100vh",
@@ -19,7 +19,7 @@ const HeadingStyle = styled(Box)({
   textAlign: "center",
 });
 
-const ContentStyle = styled("div")({
+const ContentStyle = styled(Box)({
   maxWidth: 480,
   padding: 25,
   margin: "auto",
@@ -32,7 +32,7 @@ const ContentStyle = styled("div")({
 let easing = [0.6, -0.05, 0.01, 0.99];
 const fadeInUp = {
   initial: {
-    y: 60,
+    y: 40,
     opacity: 0,
     transition: { duration: 0.6, ease: easing },
   },
@@ -46,15 +46,16 @@ const fadeInUp = {
   },
 };
 
-const Login = ({ setAuth }) => {
+const Signup = ({ setAuth }) => {
   return (
     <RootStyle>
       <Container maxWidth="sm">
         <ContentStyle>
           <HeadingStyle component={motion.div} {...fadeInUp}>
             <Logo />
+
             <Typography sx={{ color: "text.secondary", mb: 5 }}>
-              Login to your account
+              Enter your details below.
             </Typography>
           </HeadingStyle>
 
@@ -68,7 +69,25 @@ const Login = ({ setAuth }) => {
             </Typography>
           </Divider>
 
-          <LoginForm setAuth={setAuth} />
+          <SignupForm setAuth={setAuth} />
+
+          <Typography
+            component={motion.p}
+            {...fadeInUp}
+            variant="body2"
+            align="center"
+            sx={{ color: "text.secondary", mt: 2 }}
+          >
+            By registering, I agree to{" "}
+            <Link underline="always" color="text.primary" href="#">
+              Terms of Service
+            </Link>{" "}
+            &{" "}
+            <Link underline="always" color="text.primary" href="#">
+              Privacy Policy
+            </Link>
+            .
+          </Typography>
 
           <Typography
             component={motion.p}
@@ -77,9 +96,9 @@ const Login = ({ setAuth }) => {
             align="center"
             sx={{ mt: 3 }}
           >
-            Don’t have an account?{" "}
-            <Link variant="subtitle2" component={RouterLink} to="/signup">
-              Sign up
+            Have an account?{" "}
+            <Link variant="subtitle2" component={RouterLink} to="/login">
+              Login
             </Link>
           </Typography>
         </ContentStyle>
@@ -88,4 +107,4 @@ const Login = ({ setAuth }) => {
   );
 };
 
-export default Login;
+export default Signup;
