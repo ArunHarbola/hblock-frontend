@@ -3,15 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
     "@material-ui/core": "^4.12.4",
-=======
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@iconify/react": "^4.1.0",
     "@mui/lab": "^5.0.0-alpha.123",
     "@mui/material": "^5.11.13",
->>>>>>> 411c885c0d827281e83b64be69682f5ee4e2a328
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
