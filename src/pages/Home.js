@@ -7,6 +7,31 @@ import React,{useState} from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
 import Tab2 from './Tab2';
 export default function Home(){
+const hospitals = [
+  {
+    id: 1,
+    name: 'Hospital 1',
+    location: 'New York',
+    capacity: 500,
+    specialties: ['cardiology']
+  },
+  {
+    id: 2,
+    name: 'Hospital 2',
+    location: 'Los Angeles',
+    capacity: 750,
+    specialties: ['orthopedics']
+  },
+  {
+    id: 3,
+    name: 'Hospital 3',
+    location: 'Chicago',
+    capacity: 1000,
+    specialties: ['emergency']
+  },
+  // add more hospitals as needed
+];
+
   const [activeTab, setActiveTab] = useState(1);
   const handleTabClick = (tabIndex) => {
     setActiveTab(tabIndex);
@@ -24,7 +49,7 @@ return(
           </NavItem>
         </Nav>
         {activeTab === 1 && <div>Tab 1 content</div>}
-        {activeTab === 2 && <div><Tab2/></div>}
+        {activeTab === 2 && <div><Tab2 hospitals={hospitals}/></div>}
       </div>
     </div>
 );
