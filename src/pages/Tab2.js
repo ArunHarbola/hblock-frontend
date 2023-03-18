@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
-
+import AppContext from '../context/AppContext';
 export default function Tab2 (props){
+    const { myVariable,setMyVariable } = useContext(AppContext);
     const handleClick = (id) => {
-        console.log(`Clicked card with ID: ${id}`);
+        setMyVariable(id);
+        props.handleTabClick(id);
       };
     return (
         <div>

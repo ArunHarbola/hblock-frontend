@@ -6,6 +6,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 import React,{useState} from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
 import Tab2 from './Tab2';
+import AppContext from '../context/AppContext';
 export default function Home(){
 const hospitals = [
   {
@@ -31,7 +32,7 @@ const hospitals = [
   },
   // add more hospitals as needed
 ];
-
+const [myVariable, setMyVariable] = useState(1);
   const [activeTab, setActiveTab] = useState(1);
   const handleTabClick = (tabIndex) => {
     setActiveTab(tabIndex);
@@ -45,12 +46,16 @@ return(
               <Nav.Link eventKey="1" onClick={() => handleTabClick(1)}>Tab 1</Nav.Link>
           </NavItem>
           <NavItem>
-              <Nav.Link eventKey="2" onClick={() => handleTabClick(2)}>Tab 2</Nav.Link>
+              <Nav.Link eventKey="2" onClick={() => handleTabClick(-1)}>Tab 2</Nav.Link>
           </NavItem>
         </Nav>
-        {activeTab === 1 && <div>Tab 1 content</div>}
-        {activeTab === 2 && <div><Tab2 hospitals={hospitals}/></div>}
+        <AppContext.Provider value={{ myVariable, setMyVariable }}>
+        {activeTab > 0 && <div>{myVariable}</div>}
+        {activeTab === -1 && <div><Tab2 hospitals={hospitals} handleTabClick={handleTabClick}/></div>}
+        {console.log(myVariable)}
+        </AppContext.Provider>
       </div>
     </div>
 );
 }
+
