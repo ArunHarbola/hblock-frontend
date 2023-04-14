@@ -51,7 +51,7 @@ const [myVariable, setMyVariable] = useState(1);
 
 return(
     <div>
-      <div style={{display:'flex'}}> <FaBars style={{width:'40px',height:'40px',marginLeft:'20px',marginRight:'40px',marginTop:'10px'}}/><h1>HBlock</h1> <FaInfoCircle size={32} style={{width:'40px',height:'40px',marginLeft:'900px',marginRight:'40px',marginTop:'10px'}}/><IoSettingsOutline style={{width:'40px',height:'40px',marginLeft:'20px',marginRight:'40px',marginTop:'10px'}}/></div>
+      <div style={{display:'flex'}}> <h1>HBlock</h1> <FaInfoCircle size={32} style={{width:'40px',height:'40px',marginLeft:'900px',marginRight:'40px',marginTop:'10px'}}/><IoSettingsOutline style={{width:'40px',height:'40px',marginLeft:'20px',marginRight:'40px',marginTop:'10px'}}/></div>
       <div style={{ display:'flex',height:'100px',widht:'100%',marginTop:'2.6%'}}><h2 style={{marginTop:'20px',marginLeft:'50px'
       }}>About Peer</h2> <div style={{marginLeft:'50%'}}><h3>Peer ID: {peerData.id}</h3>
       <h3>Organization: {peerData.organization}</h3></div></div>
