@@ -63,13 +63,36 @@ function Form(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+  
     if (validateForm()) {
-      console.log(formValues);
-      alert("Form submitted successfully!");
-      props.newWindow.close();
+      const formArray = Object.keys(formValues).map((key) => {
+        return formValues[key];
+      });
+      
+      // send formArray to the backend API
+      fetch('/api/form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formArray)
+      })
+      .then((response) => {
+        if (response.ok) {
+          alert("Form submitted successfully!");
+          props.newWindow.close();
+        } else {
+          throw new Error("Network response was not ok");
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert("Form submission failed");
+        props.newWindow.close();
+      });
     }
   };
+  
 
   return (
     <>
