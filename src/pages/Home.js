@@ -9,42 +9,32 @@ import Tab2 from './Tab2';
 import AppContext from '../context/AppContext';
 import axios from 'axios';
 import api from '../context/transactionApiHospital1';
-function UserList() {
-  const [users, setUsers] = useState([]);
-
-  // useEffect(() => {
-    // axios.get('/transactions/requests')
-    //   .then(response => {
-    //     setUsers(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
-  // }, []);
-
-  const fetchAllRequests = async ()=>{
-    try {  
-      const data = await api.get("/requests");
-
-      return data;
-    }
-    catch (err){
-      console.log(err);
-    }
-  }
-  setUsers(fetchAllRequests());
+import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';  
   
 
-  return (
-    
-    <ul>
-      {users.map(user => (
-        <li key={user.organization}>{user}</li>
-      ))}
-    </ul>
-  );
-}
 export default function Home(){
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchAllRequests = async () => {
+      try {
+        const response = await api.get("/requests");
+        const data = response.data;
+        console.log(data);
+        const descriptionsAndIds = data.open.map((transaction) => {
+          return { description: transaction.description, id: transaction.id , quantity : transaction.quantity ,requestedBy : transaction.requestedBy , type : transaction.type };
+        });
+        setUsers(descriptionsAndIds);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchAllRequests();
+  }, []);
+  
 const hospitals = [
   {
     id: 1,
@@ -86,26 +76,61 @@ const [myVariable, setMyVariable] = useState(1);
       // Log the peerData to the console
     })
   }, []);
+  const showTransactions = () =>{
+    return (
+      <div>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
+        {users.map((transaction) => (
+          <div
+            key={transaction.id}
+            style={{
+              width: "300px",
+              margin: "10px",
+              padding: "10px",
+              border: "1px solid black",
+            }}
+          >
+            <h2>{transaction.description}</h2>
+            <p>ID: {transaction.id}</p>
+            <p>Quantity : {transaction.quantity}</p>
+            <p>requestedBy : {transaction.requestedBy}</p>
+            <p>type : {transaction.type}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    );
+  }
 
 return(
     <div>
-      <UserList/>
+      
       <div style={{display:'flex'}}> <h1>HBlock</h1> <FaInfoCircle size={32} style={{width:'40px',height:'40px',marginLeft:'900px',marginRight:'40px',marginTop:'10px'}}/><IoSettingsOutline style={{width:'40px',height:'40px',marginLeft:'20px',marginRight:'40px',marginTop:'10px'}}/></div>
+      <Link to="/login">
+      <Button variant="contained" style={{marginRight:'20px'}}>Login</Button>
+      </Link>
+      <Link to="/signup">
+      <Button variant="contained">SignUp</Button>
+      </Link>
       <div style={{ display:'flex',height:'100px',widht:'100%',marginTop:'2.6%'}}><h2 style={{marginTop:'20px',marginLeft:'50px'
       }}>About Peer</h2> <div style={{marginLeft:'50%'}}><h3>Peer ID: {peerData.id}</h3>
       <h3>Organization: {peerData.organization}</h3></div></div>
       <div>
         <Nav variant="tabs" defaultActiveKey="1">
           <NavItem>
-              <Nav.Link eventKey="1" onClick={() => handleTabClick(1)}>Tab 1</Nav.Link>
+              <Nav.Link eventKey="1" onClick={() => handleTabClick(1)}>Details</Nav.Link>
           </NavItem>
           <NavItem>
-              <Nav.Link eventKey="2" onClick={() => handleTabClick(-1)}>Tab 2</Nav.Link>
+              <Nav.Link eventKey="2" onClick={() => handleTabClick(-1)}>Hospitals</Nav.Link>
+          </NavItem>
+          <NavItem>
+              <Nav.Link eventKey="3" onClick={() => handleTabClick(0)}>Transactions</Nav.Link>
           </NavItem>
         </Nav>
         <AppContext.Provider value={{ myVariable, setMyVariable }}>
         {activeTab > 0 && <div>{myVariable}</div>}
         {activeTab === -1 && <div><Tab2 hospitals={hospitals} handleTabClick={handleTabClick}/></div>}
+        {activeTab === 0 && <div>{showTransactions()}</div> }
         {console.log(myVariable)}
         </AppContext.Provider>
       </div>
