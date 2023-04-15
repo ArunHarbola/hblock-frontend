@@ -1,12 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext , useEffect , useState} from 'react';
 import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 import AppContext from '../context/AppContext';
 import Form from './Form';
 import ReactDOM from 'react-dom';
-import ForRequest from './forRequest';
+import api from '../context/transactionApiHospital1';
 
 export default function Tab2 (props){
     const { myVariable, setMyVariable } = useContext(AppContext);
+    const [requestId, setRequestId] = useState([]);
+
+  useEffect(() => {
+    const fetchId = async () => {
+      const response = await api.get("/new-request-id");
+      const data = response.data;
+      setRequestId(data);
+    };
+    fetchId();
+  }, []);
     const handleClick = (id) => {
         setMyVariable(id);
         props.handleTabClick(id);
@@ -28,13 +38,57 @@ export default function Tab2 (props){
             newWindow.document.getElementById('form-container')
         );
       };
-      const requestForm =  () => {
-        return (
-            <>
-            <ForRequest/>
-            </>
-        )
+      const handleGrant= ()=>{
+
       }
+      const handleShut= ()=>{
+        
+      }
+      const handleDecline= ()=>{
+        
+      }
+    const onHandleGrant = () =>{
+        const newWindow = window.open('', '_blank', 'width=250,height=250');
+        newWindow.document.body.innerHTML = '<div id="form-container"></div>';
+        ReactDOM.render(
+            <form onSubmit={handleGrant}>
+                <label>Do you want to Grant </label>
+      <input type="text" name="id" value={requestId?.id} />
+      <br/>
+      <br/>
+      <button type="submit">Yes</button>
+    </form>,
+            newWindow.document.getElementById('form-container')
+        );
+    }
+    const onHandleShut = () =>{
+        const newWindow = window.open('', '_blank', 'width=250,height=250');
+        newWindow.document.body.innerHTML = '<div id="form-container"></div>';
+        ReactDOM.render(
+            <form onSubmit={handleShut}>
+                <label>Do you want to Shut Down the transaction  </label>
+      <input type="text" name="id" value={requestId?.id} />
+      <br/>
+      <br/>
+      <button type="submit">Yes</button>
+    </form>,
+            newWindow.document.getElementById('form-container')
+        );
+    }
+    const onHandleDecline = () =>{
+        const newWindow = window.open('', '_blank', 'width=250,height=250');
+        newWindow.document.body.innerHTML = '<div id="form-container"></div>';
+        ReactDOM.render(
+            <form onSubmit={handleDecline}>
+                <label>Do you want to Decline the transaction </label>
+      <input type="text" name="id" value={requestId?.id} />
+      <br/>
+      <br/>
+      <button type="submit">Yes</button>
+    </form>,
+            newWindow.document.getElementById('form-container')
+        );
+    }
     return (
         <>
         {/* // <div>
@@ -64,19 +118,19 @@ export default function Tab2 (props){
         <Card raised={true}
         style={{ width: '325px', padding: '20px', margin: '20px', display: 'inline-block' }}
         key='2'
-        onClick={() => handleClick()}>
+        onClick={() => onHandleGrant()}>
                 <CardHeader title="Grant" />  
             </Card>
             <Card raised={true}
         style={{ width: '325px', padding: '20px', margin: '20px', display: 'inline-block' }}
         key='3'
-        onClick={() => handleClick()}>
+        onClick={() => onHandleShut()}>
                 <CardHeader title="Shut" />  
             </Card>
             <Card raised={true}
         style={{ width: '325px', padding: '20px', margin: '20px', display: 'inline-block' }}
         key='4'
-        onClick={() => handleClick()}>
+        onClick={() => onHandleDecline()}>
                 <CardHeader title="Decline" />  
             </Card>
             </>
