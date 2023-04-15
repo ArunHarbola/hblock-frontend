@@ -140,7 +140,7 @@ const [myVariable, setMyVariable] = useState(1);
   const ChannelsName = ()=>{
     return (
       <div>
-        <Button variant='contained' onClick={handleItemClick}>{rootData.CHANNEL_NAME}</Button>
+        <Button variant='contained' onClick={() => handleTabClick(-1)}>{rootData.CHANNEL_NAME}</Button>
       </div>
     );
   }
