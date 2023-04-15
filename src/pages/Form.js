@@ -79,27 +79,32 @@ function Form(props) {
         return formValues[key];
       });
       
+      if (formArray[2]){
+        formArray[2] = "true";
+      }
+      else {
+        formArray[2] = "false";
+      }
+      formArray.unshift(requestId.id);
+      
       // send formArray to the backend API
-      fetch('/api/form', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formArray)
-      })
-      .then((response) => {
-        if (response.ok) {
-          alert("Form submitted successfully!");
-          props.newWindow.close();
-        } else {
-          throw new Error("Network response was not ok");
+
+      let response;
+      const submitRequest = async ()=>{
+        try {
+          response = await api.post("/transaction/blood/request", {
+            args: formArray
+          });
+
+          console.log(response);
+          
         }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert("Form submission failed");
-        props.newWindow.close();
-      });
+        catch (err){
+          console.log(err);
+        }
+      }
+
+      submitRequest();
     }
   };
   
