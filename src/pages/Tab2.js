@@ -29,22 +29,50 @@ export default function Tab2 (props){
       };
 
     return (
-        <div>
-            {props.hospitals.map((hospital) => (
-                <Card
-                    raised={true}
-                    style={{ width: '325px', padding: '20px', margin: '20px', display: 'inline-block' }}
-                    key={hospital.id}
-                    onClick={() => handleClick(hospital.id)}
-                >
-                    <CardHeader title={hospital.name} />
-                    <CardContent>
-                        <Typography variant="body1">{hospital.location}</Typography>
-                        <Typography variant="body1">{hospital.capacity}</Typography>
-                        <Typography variant="body1">{hospital.specialties}</Typography>
-                    </CardContent>
+        <>
+        {/* // <div>
+        //     {props.hospitals.map((hospital) => (
+        //         <Card
+        //             raised={true}
+        //             style={{ width: '325px', padding: '20px', margin: '20px', display: 'inline-block' }}
+        //             key={hospital.id}
+        //             onClick={() => handleClick(hospital.id)}
+        //         >
+        //             <CardHeader title={hospital.name} />
+        //             <CardContent>
+        //                 <Typography variant="body1">{hospital.location}</Typography>
+        //                 <Typography variant="body1">{hospital.capacity}</Typography>
+        //                 <Typography variant="body1">{hospital.specialties}</Typography>
+        //             </CardContent>
+        //         </Card>
+                
+        //     ))}
+        // </div> */}
+        <Card raised={true}
+            style={{ width: '325px', padding: '20px', margin: '20px', display: 'inline-block' }}
+            key='1'
+            onClick={() => handleClick()}>
+                    <CardHeader title="Request" />  
                 </Card>
-            ))}
-        </div>
+        <Card raised={true}
+        style={{ width: '325px', padding: '20px', margin: '20px', display: 'inline-block' }}
+        key='2'
+        onClick={() => handleClick()}>
+                <CardHeader title="Grant" />  
+            </Card>
+            <Card raised={true}
+        style={{ width: '325px', padding: '20px', margin: '20px', display: 'inline-block' }}
+        key='3'
+        onClick={() => handleClick()}>
+                <CardHeader title="Shut" />  
+            </Card>
+            <Card raised={true}
+        style={{ width: '325px', padding: '20px', margin: '20px', display: 'inline-block' }}
+        key='4'
+        onClick={() => handleClick()}>
+                <CardHeader title="Decline" />  
+            </Card>
+            </>
+        
     );
 }

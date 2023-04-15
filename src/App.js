@@ -10,7 +10,8 @@ function App() {
     <>
     <CssBaseline />
       <Routes>
-        <Route path='/' element={<Home/>}/>
+        <Route exact path='/' element={<Home/>}/>
+      
         <Route path="/login" element={<Login setAuth={setAuth} />} />
         <Route path="/signup" element={<Signup setAuth={setAuth} />} />
       </Routes>

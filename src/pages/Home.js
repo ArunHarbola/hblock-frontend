@@ -11,18 +11,42 @@ import axios from 'axios';
 import api from '../context/transactionApiHospital1';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';  
+import RootData from './RootData';
   
 
 export default function Home(){
 
   const [users, setUsers] = useState([]);
+  const [rootData, setRootData] = useState([]);
+  const [activeKey, setActiveKey] = useState('1');
+  const handleSelect = (key) => {
+    setActiveKey(key);
+  };
 
+  const handleItemClick = () => {
+    setActiveKey('2'); 
+  };
+
+  // const [org,setOrg] = useState([]);
+  // const fetchRoot = async ()=>{
+  //     const response = await api.get("/");
+  //     const data = response.data;
+  //     console.log(data);
+  //     const organizationAndChannel = data.map((details) => {
+  //       return { ORG_NAME: details.ORG_NAME, ORG_ID:details.ORG_ID};
+  //     });
+  //     // setOrg(organizationAndChannel);
+      
+  // };
+  
+  // fetchRoot();
+  // console.log(org);
   useEffect(() => {
     const fetchAllRequests = async () => {
       try {
-        const response = await api.get("/requests");
+        const response = await api.get("/transaction/requests");
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         const descriptionsAndIds = data.open.map((transaction) => {
           return { description: transaction.description, id: transaction.id , quantity : transaction.quantity ,requestedBy : transaction.requestedBy , type : transaction.type };
         });
@@ -33,7 +57,18 @@ export default function Home(){
     };
 
     fetchAllRequests();
+    
+
   }, []);
+  const fetchRoot = async () => {
+    const response = await api.get("/");
+    const data = response.data;
+    // console.log(data);
+    setRootData(data);
+  };
+  fetchRoot();
+  // console.log(rootData);
+    
   
 const hospitals = [
   {
@@ -72,7 +107,7 @@ const [myVariable, setMyVariable] = useState(1);
     .then(res => res.json()) // Parse the response data
     .then(data => {
       setPeerData(data.peer);
-      console.log(peerData.id+'hi'); // Update the state with the peerData
+      // console.log(peerData.id+'hi'); // Update the state with the peerData
       // Log the peerData to the console
     })
   }, []);
@@ -101,10 +136,17 @@ const [myVariable, setMyVariable] = useState(1);
     </div>
     );
   }
-
+  
+  const ChannelsName = ()=>{
+    return (
+      <div>
+        <Button variant='contained' onClick={handleItemClick}>{rootData.CHANNEL_NAME}</Button>
+      </div>
+    );
+  }
+  
 return(
     <div>
-      
       <div style={{display:'flex'}}> <h1>HBlock</h1> <FaInfoCircle size={32} style={{width:'40px',height:'40px',marginLeft:'900px',marginRight:'40px',marginTop:'10px'}}/><IoSettingsOutline style={{width:'40px',height:'40px',marginLeft:'20px',marginRight:'40px',marginTop:'10px'}}/></div>
       <Link to="/login">
       <Button variant="contained" style={{marginRight:'20px'}}>Login</Button>
@@ -112,26 +154,27 @@ return(
       <Link to="/signup">
       <Button variant="contained">SignUp</Button>
       </Link>
-      <div style={{ display:'flex',height:'100px',widht:'100%',marginTop:'2.6%'}}><h2 style={{marginTop:'20px',marginLeft:'50px'
+      <RootData/>
+      {/* <div style={{ display:'flex',height:'100px',widht:'100%',marginTop:'2.6%'}}><h2 style={{marginTop:'20px',marginLeft:'50px'
       }}>About Peer</h2> <div style={{marginLeft:'50%'}}><h3>Peer ID: {peerData.id}</h3>
-      <h3>Organization: {peerData.organization}</h3></div></div>
+      <h3>Organization: {peerData.organization}</h3></div></div> */}
       <div>
-        <Nav variant="tabs" defaultActiveKey="1">
+        <Nav variant="tabs" activeKey={activeKey} onSelect={handleSelect} defaultActiveKey="1">
           <NavItem>
-              <Nav.Link eventKey="1" onClick={() => handleTabClick(1)}>Details</Nav.Link>
+              <Nav.Link eventKey="1" onClick={() => handleTabClick(1)}>Channels</Nav.Link>
           </NavItem>
           <NavItem>
-              <Nav.Link eventKey="2" onClick={() => handleTabClick(-1)}>Hospitals</Nav.Link>
+              <Nav.Link eventKey="2" onClick={() => handleTabClick(-1)}>Transactions</Nav.Link>
           </NavItem>
           <NavItem>
-              <Nav.Link eventKey="3" onClick={() => handleTabClick(0)}>Transactions</Nav.Link>
+              <Nav.Link eventKey="3" onClick={() => handleTabClick(0)}>Transactions record</Nav.Link>
           </NavItem>
         </Nav>
         <AppContext.Provider value={{ myVariable, setMyVariable }}>
-        {activeTab > 0 && <div>{myVariable}</div>}
+        {activeTab > 0 && <div>{ChannelsName()}</div>}
         {activeTab === -1 && <div><Tab2 hospitals={hospitals} handleTabClick={handleTabClick}/></div>}
         {activeTab === 0 && <div>{showTransactions()}</div> }
-        {console.log(myVariable)}
+        
         </AppContext.Provider>
       </div>
     </div>
