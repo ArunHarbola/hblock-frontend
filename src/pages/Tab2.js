@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 import AppContext from '../context/AppContext';
 import Form from './Form';
 import ReactDOM from 'react-dom';
+import ForRequest from './forRequest';
 
 export default function Tab2 (props){
     const { myVariable, setMyVariable } = useContext(AppContext);
@@ -27,7 +28,13 @@ export default function Tab2 (props){
             newWindow.document.getElementById('form-container')
         );
       };
-
+      const requestForm =  () => {
+        return (
+            <>
+            <ForRequest/>
+            </>
+        )
+      }
     return (
         <>
         {/* // <div>

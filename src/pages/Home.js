@@ -67,7 +67,7 @@ export default function Home(){
     setRootData(data);
   };
   fetchRoot();
-  // console.log(rootData);
+  
     
   
 const hospitals = [

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState , useEffect } from "react";
+import api from "../context/transactionApiHospital1";
 function Form(props) {
   const [formValues, setFormValues] = useState({
     description: "",
@@ -8,6 +8,16 @@ function Form(props) {
     type: "",
     quantity: 0,
   });
+  const [requestId,setRequestId] = useState([]);
+  useEffect(()=>{
+    const fetchId = async () => {
+      const response = await api.get("/new-request-id");
+      const data = response.data;
+      // console.log(data);
+      setRequestId(data);
+    };
+    fetchId();
+  },[]);
 
   const [validationErrors, setValidationErrors] = useState({
     description: "",
@@ -102,6 +112,11 @@ function Form(props) {
           style={{ display: "flex", justifyContent: "center", backgroundColor: "ivory" }}
         >
           <form onSubmit={handleSubmit}>
+            <label>ID:
+              <input type="text" value={requestId.id}/>
+            </label>
+            <br />
+            <br />
             <label>
               Description:
               <input
