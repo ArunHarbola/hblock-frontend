@@ -7,6 +7,37 @@ import React,{useEffect, useState} from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
 import Tab2 from './Tab2';
 import AppContext from '../context/AppContext';
+import axios from 'axios';
+import api from '../context/UserApi';
+function UserList() {
+  const [users, setUsers] = useState([]);
+
+  // useEffect(() => {
+    // axios.get('/transactions/requests')
+    //   .then(response => {
+    //     setUsers(response.data);
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //   });
+  // }, []);
+  api.get('/requests')
+  .then(response => {
+    setUsers(response.data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
+  return (
+    
+    <ul>
+      {users.map(user => (
+        <li key={user.organization}>{user}</li>
+      ))}
+    </ul>
+  );
+}
 export default function Home(){
 const hospitals = [
   {
@@ -32,6 +63,7 @@ const hospitals = [
   },
   // add more hospitals as needed
 ];
+
 const [myVariable, setMyVariable] = useState(1);
   const [activeTab, setActiveTab] = useState(1);
   const handleTabClick = (tabIndex) => {
@@ -51,6 +83,7 @@ const [myVariable, setMyVariable] = useState(1);
 
 return(
     <div>
+      <UserList/>
       <div style={{display:'flex'}}> <h1>HBlock</h1> <FaInfoCircle size={32} style={{width:'40px',height:'40px',marginLeft:'900px',marginRight:'40px',marginTop:'10px'}}/><IoSettingsOutline style={{width:'40px',height:'40px',marginLeft:'20px',marginRight:'40px',marginTop:'10px'}}/></div>
       <div style={{ display:'flex',height:'100px',widht:'100%',marginTop:'2.6%'}}><h2 style={{marginTop:'20px',marginLeft:'50px'
       }}>About Peer</h2> <div style={{marginLeft:'50%'}}><h3>Peer ID: {peerData.id}</h3>
