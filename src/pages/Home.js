@@ -25,6 +25,7 @@ export default function Home(){
   const [users, setUsers] = useState([]);
   const [rootData, setRootData] = useState([]);
   const [activeKey, setActiveKey] = useState('1');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const handleSelect = (key) => {
     setActiveKey(key);
   };
@@ -48,6 +49,16 @@ export default function Home(){
   // fetchRoot();
   // console.log(org);
   useEffect(() => {
+    const hasUrl = Cookies.get('url');
+    const hasToken = Cookies.get('token');
+
+    if (!hasUrl || !hasToken) {
+      // Redirect to login page if cookies or token are not set
+      setIsLoggedIn(false);
+    } else {
+      setIsLoggedIn(true);
+    }
+
     const fetchAllRequests = async () => {
       try {
         const response = await api.get("/transaction/requests");
@@ -150,15 +161,23 @@ const [myVariable, setMyVariable] = useState(1);
       </div>
     );
   }
+
+  if (!isLoggedIn){
+    return (
+      <div>
+      <p>You must be logged in to view this page.</p>
+      <Link to="/login">
+      <Button variant="contained" style={{marginRight:'20px'}}>Login</Button>
+      </Link>
+      </div>
+    );
+  }
   
 return(
     <div>
       <div style={{display:'flex'}}> <h1>HBlock</h1> <FaInfoCircle size={32} style={{width:'40px',height:'40px',marginLeft:'900px',marginRight:'40px',marginTop:'10px'}}/><IoSettingsOutline style={{width:'40px',height:'40px',marginLeft:'20px',marginRight:'40px',marginTop:'10px'}}/></div>
       <Link to="/login">
-      <Button variant="contained" style={{marginRight:'20px'}}>Login</Button>
-      </Link>
-      <Link to="/signup">
-      <Button variant="contained">SignUp</Button>
+      <Button variant="contained" style={{marginRight:'20px'}}>Login Again</Button>
       </Link>
       <RootData/>
       {/* <div style={{ display:'flex',height:'100px',widht:'100%',marginTop:'2.6%'}}><h2 style={{marginTop:'20px',marginLeft:'50px'
