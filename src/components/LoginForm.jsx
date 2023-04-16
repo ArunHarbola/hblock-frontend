@@ -76,6 +76,7 @@ const LoginForm = ({ setAuth }) => {
               console.log("submited!!");
               setAuth(true);
               navigate(from, { replace: true });
+              window.location.reload();
             }, 2000);
           }
         }

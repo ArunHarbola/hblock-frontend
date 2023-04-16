@@ -7,24 +7,25 @@ import React,{useEffect, useState} from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
 import Tab2 from './Tab2';
 import AppContext from '../context/AppContext';
+import Fx3 from './RequestsForMe';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';  
 import RootData from './RootData';
 import Cookies from "js-cookie";
-
-
+import Fx from './RequestsByMe'
+import Fx2 from './RequestsPublic';
+import react from 'react';
 import createApi from "../context/userApi";
 const url = `${Cookies.get('url')}`;
 const token = `${Cookies.get('token')}`;
 const api = createApi(url, token);
-  
 
 export default function Home(){
-
   const [users, setUsers] = useState([]);
   const [rootData, setRootData] = useState([]);
   const [activeKey, setActiveKey] = useState('1');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const handleSelect = (key) => {
     setActiveKey(key);
   };
@@ -48,6 +49,16 @@ export default function Home(){
   // fetchRoot();
   // console.log(org);
   useEffect(() => {
+    const hasUrl = Cookies.get('url');
+    const hasToken = Cookies.get('token');
+
+    if (!hasUrl || !hasToken) {
+      // Redirect to login page if cookies or token are not set
+      setIsLoggedIn(false);
+    } else {
+      setIsLoggedIn(true);
+    }
+
     const fetchAllRequests = async () => {
       try {
         const response = await api.get("/transaction/requests");
@@ -150,15 +161,23 @@ const [myVariable, setMyVariable] = useState(1);
       </div>
     );
   }
+
+  if (!isLoggedIn){
+    return (
+      <div>
+      <p>You must be logged in to view this page.</p>
+      <Link to="/login">
+      <Button variant="contained" style={{marginRight:'20px'}}>Login</Button>
+      </Link>
+      </div>
+    );
+  }
   
 return(
     <div>
       <div style={{display:'flex'}}> <h1>HBlock</h1> <FaInfoCircle size={32} style={{width:'40px',height:'40px',marginLeft:'900px',marginRight:'40px',marginTop:'10px'}}/><IoSettingsOutline style={{width:'40px',height:'40px',marginLeft:'20px',marginRight:'40px',marginTop:'10px'}}/></div>
       <Link to="/login">
-      <Button variant="contained" style={{marginRight:'20px'}}>Login</Button>
-      </Link>
-      <Link to="/signup">
-      <Button variant="contained">SignUp</Button>
+      <Button variant="contained" style={{marginRight:'20px'}}>Login Again</Button>
       </Link>
       <RootData/>
       {/* <div style={{ display:'flex',height:'100px',widht:'100%',marginTop:'2.6%'}}><h2 style={{marginTop:'20px',marginLeft:'50px'
@@ -169,18 +188,29 @@ return(
           <NavItem>
               <Nav.Link eventKey="1" onClick={() => handleTabClick(1)}>Channels</Nav.Link>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
               <Nav.Link eventKey="2" onClick={() => handleTabClick(-1)}>Transactions</Nav.Link>
+          </NavItem> */}
+          {/* <NavItem>
+              <Nav.Link eventKey="3" onClick={() => handleTabClick(0)}>Transactions record</Nav.Link>
+          </NavItem> */}
+          <NavItem>
+              <Nav.Link eventKey="4" onClick={() => handleTabClick(4)}>Requests By Me</Nav.Link>
           </NavItem>
           <NavItem>
-              <Nav.Link eventKey="3" onClick={() => handleTabClick(0)}>Transactions record</Nav.Link>
+              <Nav.Link eventKey="5" onClick={() => handleTabClick(5)}>Requests For Me</Nav.Link>
+          </NavItem>
+          <NavItem>
+              <Nav.Link eventKey="6" onClick={() => handleTabClick(6)}>Public Requests</Nav.Link>
           </NavItem>
         </Nav>
         <AppContext.Provider value={{ myVariable, setMyVariable }}>
-        {activeTab > 0 && <div>{ChannelsName()}</div>}
+        {activeTab === 1 && <div>{ChannelsName()}</div>}
         {activeTab === -1 && <div><Tab2 hospitals={hospitals} handleTabClick={handleTabClick}/></div>}
         {activeTab === 0 && <div>{showTransactions()}</div> }
-        
+        {activeTab === 4 && <div><Fx/></div> }
+        {activeTab === 5 && <div><Fx3/></div>  }
+        {activeTab === 6 &&  <div><Fx2/></div>   }
         </AppContext.Provider>
       </div>
     </div>

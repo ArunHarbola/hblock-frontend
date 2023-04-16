@@ -1,8 +1,8 @@
 import React, { useState , useEffect } from "react";
 import createApi from "../context/userApi";
-
-const url = `http://34.131.122.182:8080`;
-const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJPUkdfTkFNRSI6Ikhvc3BpdGFsMSIsIk9SR19JRCI6Ikhvc3BpdGFsMU1TUDp4NTA5OjovT1U9YWRtaW4vQ049YWRtaW46Oi9DPUVTL0w9QWxpY2FudGUvPUFsaWNhbnRlL089S3VuZyBGdSBTb2Z0d2FyZS9PVT1UZWNoL0NOPWNhIiwiTVNQX0lEIjoiSG9zcGl0YWwxTVNQIiwiaWF0IjoxNjgxNDU5NzAyfQ.Yf7MWhCMN-hv8GIqm1v87p1zX_aLkgo1bf6K2kbSIxI`;
+import Cookies from "js-cookie";
+const url = `${Cookies.get('url')}`;
+const token = `${Cookies.get('token')}`;
 const api = createApi(url, token);
 
 function Form(props) {
@@ -102,6 +102,10 @@ function Form(props) {
           });
 
           console.log(response);
+          if (response.data.success){
+            props.newWindow.close();
+            alert("Request Submitted Successfully");
+          }
           
         }
         catch (err){
@@ -167,9 +171,14 @@ function Form(props) {
               Type:
               <select name="type" value={formValues.type} onChange={handleInputChange}>
                 <option value="">--Please choose an option--</option>
-                <option value="blood">Blood</option>
-                <option value="plasma">Plasma</option>
-                <option value="platelets">Platelets</option>
+                <option value="A-">A-</option>
+                <option value="A+">A+</option>
+                <option value="B-">B-</option>
+                <option value="B+">B+</option>
+                <option value="O-">O-</option>
+                <option value="O+">O+</option>
+                <option value="AB-">AB-</option>
+                <option value="AB+">AB+</option>
                 </select>
                 <span style={{ color: "red" }}>{validationErrors.type}</span>
         </label>
