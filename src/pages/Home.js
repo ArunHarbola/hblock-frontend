@@ -11,11 +11,12 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';  
 import RootData from './RootData';
+import Cookies from "js-cookie";
 
 
 import createApi from "../context/userApi";
-const url = `http://34.131.122.182:8080`;
-const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJPUkdfTkFNRSI6Ikhvc3BpdGFsMSIsIk9SR19JRCI6Ikhvc3BpdGFsMU1TUDp4NTA5OjovT1U9YWRtaW4vQ049YWRtaW46Oi9DPUVTL0w9QWxpY2FudGUvPUFsaWNhbnRlL089S3VuZyBGdSBTb2Z0d2FyZS9PVT1UZWNoL0NOPWNhIiwiTVNQX0lEIjoiSG9zcGl0YWwxTVNQIiwiaWF0IjoxNjgxNDU5NzAyfQ.Yf7MWhCMN-hv8GIqm1v87p1zX_aLkgo1bf6K2kbSIxI`;
+const url = `${Cookies.get('url')}`;
+const token = `${Cookies.get('token')}`;
 const api = createApi(url, token);
   
 

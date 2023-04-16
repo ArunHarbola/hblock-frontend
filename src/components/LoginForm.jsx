@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
+import createApi from "../context/checkApi";
+import generateUrl from "../context/generateUrl";
+import Cookies from "universal-cookie";
+
 
 import {
   Box,
@@ -16,7 +20,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
-
+const cookies = new Cookies();
 let easing = [0.6, -0.05, 0.01, 0.99];
 const animate = {
   opacity: 1,
@@ -37,7 +41,6 @@ const LoginForm = ({ setAuth }) => {
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
-      .email("Provide a valid email address")
       .required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
@@ -51,11 +54,37 @@ const LoginForm = ({ setAuth }) => {
     validationSchema: LoginSchema,
     onSubmit: () => {
       console.log("submitting...");
-      setTimeout(() => {
-        console.log("submited!!");
-        setAuth(true);
-        navigate(from, { replace: true });
-      }, 2000);
+
+      const username = formik.values.email;
+      const token = formik.values.password;
+      const url = generateUrl(username);
+
+      const api = createApi(url);
+
+      const checkToken = async ()=>{
+        try {
+          const response = await api.post("/check-api-key", {
+            apiKey: token
+          });
+
+          console.log(response);
+          if (response.data.isValid){
+            cookies.set('url', `${url}`, { path: '/' });
+            cookies.set('token', `${token}`, { path: '/' });
+
+            setTimeout(() => {
+              console.log("submited!!");
+              setAuth(true);
+              navigate(from, { replace: true });
+            }, 2000);
+          }
+        }
+        catch (err){
+          console.log(err);
+        }
+      }
+      checkToken();
+
     },
   });
 
