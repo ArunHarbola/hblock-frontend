@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 import AppContext from '../context/AppContext';
 import Form from './Form';
 import ReactDOM from 'react-dom';
-import api from '../context/transactionApiHospital1';
+import api from '../context/userApi';
 
 export default function Tab2 (props){
     const { myVariable, setMyVariable } = useContext(AppContext);
@@ -38,14 +38,42 @@ export default function Tab2 (props){
             newWindow.document.getElementById('form-container')
         );
       };
-      const handleGrant= ()=>{
+      const handleGrant= async ()=>{
+        try {
+          const response = await api.post("/transaction/blood/grant", {
+            args: [requestId]
+          });
+
+          console.log(response);
+        }
+        catch (err){
+          console.log(err);
+        }
 
       }
-      const handleShut= ()=>{
-        
+      const handleShut= async ()=>{
+        try {
+          const response = await api.post("/transaction/blood/shut", {
+            args: [requestId]
+          });
+
+          console.log(response);
+        }
+        catch (err){
+          console.log(err);
+        }
       }
-      const handleDecline= ()=>{
-        
+      const handleDecline= async ()=>{
+        try {
+          const response = await api.post("/transaction/blood/decline", {
+            args: [requestId]
+          });
+
+          console.log(response);
+        }
+        catch (err){
+          console.log(err);
+        }
       }
     const onHandleGrant = () =>{
         const newWindow = window.open('', '_blank', 'width=250,height=250');
