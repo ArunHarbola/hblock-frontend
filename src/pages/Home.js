@@ -188,12 +188,12 @@ return(
           <NavItem>
               <Nav.Link eventKey="1" onClick={() => handleTabClick(1)}>Channels</Nav.Link>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
               <Nav.Link eventKey="2" onClick={() => handleTabClick(-1)}>Transactions</Nav.Link>
-          </NavItem>
-          <NavItem>
+          </NavItem> */}
+          {/* <NavItem>
               <Nav.Link eventKey="3" onClick={() => handleTabClick(0)}>Transactions record</Nav.Link>
-          </NavItem>
+          </NavItem> */}
           <NavItem>
               <Nav.Link eventKey="4" onClick={() => handleTabClick(4)}>Requests By Me</Nav.Link>
           </NavItem>
@@ -205,7 +205,7 @@ return(
           </NavItem>
         </Nav>
         <AppContext.Provider value={{ myVariable, setMyVariable }}>
-        {activeTab > 0 && <div>{ChannelsName()}</div>}
+        {activeTab === 1 && <div>{ChannelsName()}</div>}
         {activeTab === -1 && <div><Tab2 hospitals={hospitals} handleTabClick={handleTabClick}/></div>}
         {activeTab === 0 && <div>{showTransactions()}</div> }
         {activeTab === 4 && <div><Fx/></div> }

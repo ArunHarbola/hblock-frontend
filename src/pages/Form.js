@@ -102,6 +102,10 @@ function Form(props) {
           });
 
           console.log(response);
+          if (response.data.success){
+            props.newWindow.close();
+            alert("Request Submitted Successfully");
+          }
           
         }
         catch (err){
@@ -167,9 +171,14 @@ function Form(props) {
               Type:
               <select name="type" value={formValues.type} onChange={handleInputChange}>
                 <option value="">--Please choose an option--</option>
-                <option value="blood">Blood</option>
-                <option value="plasma">Plasma</option>
-                <option value="platelets">Platelets</option>
+                <option value="A-">A-</option>
+                <option value="A+">A+</option>
+                <option value="B-">B-</option>
+                <option value="B+">B+</option>
+                <option value="O-">O-</option>
+                <option value="O+">O+</option>
+                <option value="AB-">AB-</option>
+                <option value="AB+">AB+</option>
                 </select>
                 <span style={{ color: "red" }}>{validationErrors.type}</span>
         </label>
